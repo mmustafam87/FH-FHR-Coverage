@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="chrome">#E6E9EC</color>
+    <color name="icon_bg">#FFFFFF</color>
+    <color name="hydrant">#C8201E</color>
+    <color name="hydrant_dark">#7A1512</color>
+</resources>

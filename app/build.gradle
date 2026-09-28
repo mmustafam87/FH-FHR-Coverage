@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'engineering.firify.hydrant'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'engineering.firify.hydrant'
+        minSdk 26
+        targetSdk 34
+        versionCode Integer.parseInt((project.findProperty('versionCode') ?: '1').toString())
+        versionName (project.findProperty('versionName') ?: '1.0').toString()
+    }
+
+    signingConfigs {
+        release {
+            // A fixed key so every new APK installs over the old one and keeps saved work.
+            // Uses GitHub secrets if you add them, otherwise the bundled sideload key.
+            // Use your own private key (secrets) before any Google Play release.
+            def env = System.getenv()
+            storeFile file(env.KEYSTORE_FILE ?: "${rootDir}/keystore/sideload.jks")
+            storePassword env.KEYSTORE_PASSWORD ?: 'hydrant-sideload'
+            keyAlias env.KEY_ALIAS ?: 'hydrant'
+            keyPassword env.KEY_PASSWORD ?: 'hydrant-sideload'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.11.0'
+}
